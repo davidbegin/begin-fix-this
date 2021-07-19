@@ -12,15 +12,17 @@ COPY requirements.txt .
 
 RUN pip3 install -r requirements.txt
 
-RUN ./Slippy.AppImage --appimage-extract
-
+# Do We want to copy everything???
 COPY . .
 
-RUN echo "exec python3 /app/example.py -e /app/squashfs-root/usr/bin --iso iso/smash.iso" > ~/.xinitrc && chmod +x ~/.xinitrc
+RUN ./Slippy.AppImage --appimage-extract
 
 RUN mkdir -p /root/.config/SlippiOnline/Config
 
 RUN cp Dolphin.ini /root/.config/SlippiOnline/Config/Dolphin.ini
+
+# We are mounting in the app
+RUN echo "exec python3 /app/example.py -e /app/squashfs-root/usr/bin --iso /app/smash.iso" > ~/.xinitrc && chmod +x ~/.xinitrc
 
 EXPOSE 5900
 
